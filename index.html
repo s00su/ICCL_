@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자동 검수완료확인서 및 사진대지생성기</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; -webkit-print-color-adjust: exact; }
+            .print-container { box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; border: none !important; }
+            .page-break { page-break-after: always; break-after: page; }
+            @page { size: A4; margin: 10mm; }
+        }
+        table, th, td {
+            border: 1px solid #1e293b !important;
+        }
+        .photo-page {
+            box-sizing: border-box;
+            border: 1px solid #cbd5e1;
+        }
+        @media print {
+            .photo-page {
+                border: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen">
+
+    <header class="bg-indigo-900 text-white shadow-md no-print py-4 px-6 mb-6">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">📋 자동 검수완료확인서 및 사진대지 (최대 16장 지원)</h1>
+                <p class="text-indigo-200 text-sm mt-1">엑셀 복사-붙여넣기, 자동 계산, 사진 순서 변경 및 최대 16장 등록 지원 (PDF 용량 자동 최적화).</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="window.print()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-lg font-medium shadow transition flex items-center gap-2">
+                    🖨️ 인쇄 / PDF 저장
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- 왼쪽 설정 패널 -->
+        <section class="lg:col-span-5 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 no-print space-y-6">
+            <h2 class="text-lg font-bold text-slate-900 border-b pb-3 flex items-center justify-between">
+                <span>⚙️ 입력 및 설정 패널</span>
+                <button onclick="resetData()" class="text-xs text-rose-500 hover:underline">전체 초기화</button>
+            </h2>
+
+            <!-- 기본 정보 입력 -->
+            <div class="space-y-4">
+                <h3 class="text-sm font-semibold text-slate-700">1. 기본 정보</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">제목</label>
+                        <input type="text" id="docTitle" value="C57BL/6 [Female]" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">작성일자</label>
+                        <input type="date" id="docDate" onchange="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">사용자</label>
+                        <input type="text" id="docUser" value="다림프롬텍" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">부서</label>
+                        <input type="text" id="docDept" value="연구개발" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">구입코드</label>
+                        <input type="text" id="docCode" value="DFA-OA" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">구입목적</label>
+                        <input type="text" id="docPurpose" value="연구재료비" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">거래처명</label>
+                        <input type="text" id="docVendor" value="주식회사 두열바이오텍" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">결제방법</label>
+                        <input type="text" id="docMethod" value="계좌이체" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-xs font-medium text-slate-600 mb-1">계좌번호</label>
+                        <input type="text" id="docAccount" value="우리은행 1005-981-008598" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 엑셀 데이터 입력 -->
+            <div class="space-y-3 pt-2 border-t">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-sm font-semibold text-slate-700">2. 품목 엑셀 복사/붙여넣기</h3>
+                    <span class="text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded font-medium">Tab 구분 지원</span>
+                </div>
+                <p class="text-xs text-slate-500">엑셀에서 여러 행(품목명, 수량, 단가)을 드래그해서 복사(Ctrl+C)한 뒤 아래 칸에 붙여넣기(Ctrl+V) 하세요.</p>
+                <textarea id="excelPasteArea" rows="6" placeholder="예:&#10;C57BL/6 [Female]	60	18000" class="w-full border rounded-lg p-3 text-xs focus:ring-2 focus:ring-indigo-500 outline-none font-mono" oninput="parseExcelInput()"></textarea>
+                <button onclick="parseExcelInput()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg text-sm font-medium transition shadow-sm">
+                    품목 테이블에 즉시 반영하기
+                </button>
+            </div>
+
+            <!-- 사진 관리 영역 -->
+            <div class="space-y-3 pt-2 border-t">
+                <h3 class="text-sm font-semibold text-slate-700">3. 검수 사진 등록 및 순서 관리 (최대 16장)</h3>
+                <p class="text-xs text-slate-500">사진을 선택하면 자동으로 압축되어 용량이 최적화됩니다.</p>
+                <input type="file" id="imageInput" multiple accept="image/*" onchange="handleImageUpload(event)" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer">
+                
+                <div id="uploadedThumbnails" class="space-y-2 pt-2 max-h-60 overflow-y-auto pr-1"></div>
+            </div>
+
+        </section>
+
+        <!-- 우측 문서 미리보기 영역 -->
+        <section class="lg:col-span-7 bg-white p-6 sm:p-10 rounded-2xl shadow-sm border border-slate-200 print-container overflow-x-auto space-y-12">
+            
+            <!-- 페이지 1: 검수완료확인서 본문 -->
+            <div id="page1" class="w-full max-w-[210mm] mx-auto bg-white p-8 text-slate-900 border border-slate-300 shadow-sm relative page-break">
+                
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold tracking-wider text-center underline underline-offset-8">검 수 완 료 확 인 서</h2>
+                    </div>
+                    <table class="text-center text-xs border-collapse">
+                        <tr>
+                            <td rowspan="2" class="p-2 font-bold bg-slate-50 w-8">결재</td>
+                            <td class="px-4 py-1 font-medium bg-slate-50">담당</td>
+                            <td class="px-4 py-1 font-medium bg-slate-50">팀장</td>
+                            <td class="px-4 py-1 font-medium bg-slate-50">대표</td>
+                        </tr>
+                        <tr>
+                            <td class="h-12"></td>
+                            <td class="h-12"></td>
+                            <td class="h-12"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="mb-4 flex items-center gap-2 text-sm font-semibold">
+                    <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">제목</span>
+                    <span id="previewTitle" class="border-b border-dashed border-slate-400 pb-0.5 flex-1 text-base">C57BL/6 [Female]</span>
+                </div>
+
+                <table class="w-full text-xs mb-6 border-collapse text-center">
+                    <tr>
+                        <td class="bg-slate-100 font-semibold py-2 w-24">사 용 자</td>
+                        <td id="previewUser" class="py-2 text-left px-3">다림프롬텍</td>
+                        <td class="bg-slate-100 font-semibold py-2 w-24">작성일자</td>
+                        <td id="previewDate" class="py-2 px-3">2026-03-27</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-slate-100 font-semibold py-2">부 서</td>
+                        <td id="previewDept" class="py-2 text-left px-3">연구개발</td>
+                        <td class="bg-slate-100 font-semibold py-2">구입코드</td>
+                        <td id="previewCode" class="py-2 px-3">DFA-OA</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-slate-100 font-semibold py-2">구입목적</td>
+                        <td colspan="3" id="previewPurpose" class="py-2 text-left px-3">연구재료비</td>
+                    </tr>
+                </table>
+
+                <table class="w-full text-xs mb-6 border-collapse text-center">
+                    <tr>
+                        <td class="bg-slate-100 font-semibold py-2 w-24">거래처명</td>
+                        <td id="previewVendor" class="py-2 text-left px-3">주식회사 두열바이오텍</td>
+                        <td class="bg-slate-100 font-semibold py-2 w-24">금액 (최종총액)</td>
+                        <td id="previewTotalSum" class="py-2 text-right px-3 font-bold text-indigo-700">0</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-slate-100 font-semibold py-2">결제방법</td>
+                        <td id="previewMethod" class="py-2 text-left px-3">계좌이체</td>
+                        <td class="bg-slate-100 font-semibold py-2">계좌번호</td>
+                        <td id="previewAccount" class="py-2 text-left px-3">우리은행 1005-981-008598</td>
+                    </tr>
+                </table>
+
+                <table class="w-full text-xs border-collapse text-center mb-4">
+                    <thead>
+                        <tr class="bg-slate-100 font-semibold">
+                            <td class="py-2 w-12 border">구분</td>
+                            <td class="py-2 border">품목</td>
+                            <td class="py-2 w-16 border">수량</td>
+                            <td class="py-2 w-20 border">단가</td>
+                            <td class="py-2 w-24 border">금액</td>
+                            <td class="py-2 w-20 border">부가세</td>
+                        </tr>
+                    </thead>
+                    <tbody id="previewItemRows"></tbody>
+                    <tfoot>
+                        <tr class="font-bold bg-slate-50">
+                            <td colspan="4" class="py-2 text-center border">합계</td>
+                            <td id="footerSum" class="py-2 text-right px-2 border">0</td>
+                            <td id="footerVat" class="py-2 text-right px-2 border">0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- 페이지 2: 사진대지 1 (사진 1~4) -->
+            <div id="page2" class="photo-page w-full max-w-[210mm] mx-auto bg-white p-8 text-slate-900 shadow-sm relative page-break">
+                <h3 class="text-xl font-bold mb-4 text-center border-b pb-2">검 수 사 진</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot0" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+1" class="w-full h-full object-contain" alt="사진1"></div>
+                        <div id="photoCaption0" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot1" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+2" class="w-full h-full object-contain" alt="사진2"></div>
+                        <div id="photoCaption1" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot2" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+3" class="w-full h-full object-contain" alt="사진3"></div>
+                        <div id="photoCaption2" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot3" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+4" class="w-full h-full object-contain" alt="사진4"></div>
+                        <div id="photoCaption3" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 페이지 3: 사진대지 2 (사진 5~8) -->
+            <div id="page3" class="photo-page w-full max-w-[210mm] mx-auto bg-white p-8 text-slate-900 shadow-sm relative page-break">
+                <h3 class="text-xl font-bold mb-4 text-center border-b pb-2">검 수 사 진</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot4" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+5" class="w-full h-full object-contain" alt="사진5"></div>
+                        <div id="photoCaption4" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot5" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+6" class="w-full h-full object-contain" alt="사진6"></div>
+                        <div id="photoCaption5" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot6" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+7" class="w-full h-full object-contain" alt="사진7"></div>
+                        <div id="photoCaption6" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot7" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+8" class="w-full h-full object-contain" alt="사진8"></div>
+                        <div id="photoCaption7" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 페이지 4: 사진대지 3 (사진 9~12) -->
+            <div id="page4" class="photo-page w-full max-w-[210mm] mx-auto bg-white p-8 text-slate-900 shadow-sm relative page-break">
+                <h3 class="text-xl font-bold mb-4 text-center border-b pb-2">검 수 사 진</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot8" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+9" class="w-full h-full object-contain" alt="사진9"></div>
+                        <div id="photoCaption8" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot9" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+10" class="w-full h-full object-contain" alt="사진10"></div>
+                        <div id="photoCaption9" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot10" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+11" class="w-full h-full object-contain" alt="사진11"></div>
+                        <div id="photoCaption10" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot11" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+12" class="w-full h-full object-contain" alt="사진12"></div>
+                        <div id="photoCaption11" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 페이지 5: 사진대지 4 (사진 13~16) -->
+            <div id="page5" class="photo-page w-full max-w-[210mm] mx-auto bg-white p-8 text-slate-900 shadow-sm relative">
+                <h3 class="text-xl font-bold mb-4 text-center border-b pb-2">검 수 사 진</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot12" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+13" class="w-full h-full object-contain" alt="사진13"></div>
+                        <div id="photoCaption12" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot13" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+14" class="w-full h-full object-contain" alt="사진14"></div>
+                        <div id="photoCaption13" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot14" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+15" class="w-full h-full object-contain" alt="사진15"></div>
+                        <div id="photoCaption14" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot15" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+16" class="w-full h-full object-contain" alt="사진16"></div>
+                        <div id="photoCaption15" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        let items = [
+            { name: "C57BL/6 [Female]", qty: 60, unitPrice: 18000 }
+        ];
+
+        let uploadedImages = [];
+
+        window.onload = function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('docDate').value = today;
+            
+            const defaultText = items.map(i => `${i.name}\t${i.qty}\t${i.unitPrice}`).join('\n');
+            document.getElementById('excelPasteArea').value = defaultText;
+            updatePreview();
+        };
+
+        function updatePreview() {
+            document.getElementById('previewTitle').innerText = document.getElementById('docTitle').value;
+            document.getElementById('previewUser').innerText = document.getElementById('docUser').value;
+            document.getElementById('previewDate').innerText = document.getElementById('docDate').value;
+            document.getElementById('previewDept').innerText = document.getElementById('docDept').value;
+            document.getElementById('previewCode').innerText = document.getElementById('docCode').value;
+            document.getElementById('previewPurpose').innerText = document.getElementById('docPurpose').value;
+            document.getElementById('previewVendor').innerText = document.getElementById('docVendor').value;
+            document.getElementById('previewMethod').innerText = document.getElementById('docMethod').value;
+            document.getElementById('previewAccount').innerText = document.getElementById('docAccount').value;
+
+            renderItemTable();
+        }
+
+        function renderItemTable() {
+            const tbody = document.getElementById('previewItemRows');
+            tbody.innerHTML = '';
+
+            let totalAmount = 0;
+            let totalVat = 0;
+
+            for (let i = 0; i < 15; i++) {
+                const item = items[i] || { name: '', qty: 0, unitPrice: 0 };
+                const amount = item.qty * item.unitPrice;
+                const vat = Math.floor(amount * 0.1);
+
+                if (item.qty > 0 || item.unitPrice > 0) {
+                    totalAmount += amount;
+                    totalVat += vat;
+                }
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="py-1.5 border text-slate-500">${i + 1}</td>
+                    <td class="py-1.5 border text-left px-2 truncate max-w-[180px]">${item.name || ''}</td>
+                    <td class="py-1.5 border text-right px-2">${item.qty > 0 ? item.qty.toLocaleString() : ''}</td>
+                    <td class="py-1.5 border text-right px-2">${item.unitPrice > 0 ? item.unitPrice.toLocaleString() : '-'}</td>
+                    <td class="py-1.5 border text-right px-2">${amount > 0 ? amount.toLocaleString() : '-'}</td>
+                    <td class="py-1.5 border text-right px-2">${vat > 0 ? vat.toLocaleString() : '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            const grandTotal = totalAmount + totalVat;
+
+            document.getElementById('footerSum').innerText = totalAmount.toLocaleString();
+            document.getElementById('footerVat').innerText = totalVat.toLocaleString();
+            document.getElementById('previewTotalSum').innerText = grandTotal.toLocaleString();
+        }
+
+        function parseExcelInput() {
+            const text = document.getElementById('excelPasteArea').value;
+            const rows = text.split('\n');
+            const newItems = [];
+
+            rows.forEach(row => {
+                if (!row.trim()) return;
+                const cols = row.split('\t');
+                if (cols.length >= 1) {
+                    const name = cols[0] ? cols[0].trim() : '';
+                    const qty = cols[1] ? parseInt(cols[1].replace(/,/g, '')) || 1 : 1;
+                    const unitPrice = cols[2] ? parseInt(cols[2].replace(/,/g, '')) || 0 : 0;
+                    if (name) {
+                        newItems.push({ name, qty, unitPrice });
+                    }
+                }
+            });
+
+            if (newItems.length > 0) {
+                items = newItems;
+                updatePreview();
+            } else if (!text.trim()) {
+                items = [];
+                updatePreview();
+            }
+        }
+
+        // 사진 자동 압축 및 리사이징 함수 (20MB 이하 용량 보장)
+        function compressImage(file, callback) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    const MAX_SIZE = 1200;
+                    if (width > height) {
+                        if (width > MAX_SIZE) {
+                            height *= MAX_SIZE / width;
+                            width = MAX_SIZE;
+                        }
+                    } else {
+                        if (height > MAX_SIZE) {
+                            width *= MAX_SIZE / height;
+                            height = MAX_SIZE;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.75);
+                    callback(compressedDataUrl);
+                };
+            };
+        }
+
+        function handleImageUpload(e) {
+            const files = e.target.files;
+            if (!files) return;
+
+            let loadedCount = 0;
+            const filesToProcess = Array.from(files).slice(0, 16 - uploadedImages.length);
+            if (filesToProcess.length === 0) return;
+
+            filesToProcess.forEach(file => {
+                compressImage(file, (compressedDataUrl) => {
+                    uploadedImages.push({
+                        url: compressedDataUrl,
+                        name: file.name
+                    });
+                    loadedCount++;
+
+                    if (loadedCount === filesToProcess.length) {
+                        renderPhotoManager();
+                        renderPhotoSheets();
+                    }
+                });
+            });
+            e.target.value = '';
+        }
+
+        function movePhoto(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= uploadedImages.length) return;
+            
+            const temp = uploadedImages[index];
+            uploadedImages[index] = uploadedImages[newIndex];
+            uploadedImages[newIndex] = temp;
+
+            renderPhotoManager();
+            renderPhotoSheets();
+        }
+
+        function removePhoto(index) {
+            uploadedImages.splice(index, 1);
+            renderPhotoManager();
+            renderPhotoSheets();
+        }
+
+        function renderPhotoManager() {
+            const container = document.getElementById('uploadedThumbnails');
+            container.innerHTML = '';
+
+            if (uploadedImages.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-2">등록된 사진이 없습니다.</p>`;
+                return;
+            }
+
+            uploadedImages.forEach((imgObj, idx) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = "flex items-center justify-between bg-slate-50 border rounded-lg p-2 gap-2";
+                itemDiv.innerHTML = `
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <span class="text-xs font-bold text-indigo-600 w-5">${idx + 1}</span>
+                        <img src="${imgObj.url}" class="w-10 h-10 object-cover rounded border">
+                        <span class="text-xs text-slate-700 truncate max-w-[140px]">${imgObj.name}</span>
+                    </div>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button onclick="movePhoto(${idx}, -1)" ${idx === 0 ? 'disabled class="opacity-30 cursor-not-allowed"' : ''} class="p-1 bg-white border rounded hover:bg-slate-100 text-xs" title="위로">⬆️</button>
+                        <button onclick="movePhoto(${idx}, 1)" ${idx === uploadedImages.length - 1 ? 'disabled class="opacity-30 cursor-not-allowed"' : ''} class="p-1 bg-white border rounded hover:bg-slate-100 text-xs" title="아래로">⬇️</button>
+                        <button onclick="removePhoto(${idx})" class="p-1 bg-rose-50 text-rose-600 border border-rose-200 rounded hover:bg-rose-100 text-xs" title="삭제">❌</button>
+                    </div>
+                `;
+                container.appendChild(itemDiv);
+            });
+        }
+
+        function renderPhotoSheets() {
+            for (let i = 0; i < 16; i++) {
+                const slotImg = document.getElementById(`photoSlot${i}`);
+                const slotCaption = document.getElementById(`photoCaption${i}`);
+
+                if (uploadedImages[i]) {
+                    slotImg.src = uploadedImages[i].url;
+                    if (items[i] && items[i].name) {
+                        slotCaption.innerText = items[i].name;
+                    } else {
+                        slotCaption.innerText = uploadedImages[i].name;
+                    }
+                } else {
+                    slotImg.src = `https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+${i+1}`;
+                    slotCaption.innerText = '-';
+                }
+            }
+        }
+
+        function resetData() {
+            items = [];
+            uploadedImages = [];
+            document.getElementById('excelPasteArea').value = '';
+            document.getElementById('imageInput').value = '';
+            renderPhotoManager();
+            updatePreview();
+            renderPhotoSheets();
+        }
+    </script>
+</body>
+</html>
