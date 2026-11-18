@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>검수완료확인서</title>
+    <title>자동 검수완료확인서 및 사진대지생성기</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -211,20 +211,20 @@
             <div id="page2" class="photo-page w-full max-w-[210mm] mx-auto bg-white p-8 text-slate-900 shadow-sm relative page-break">
                 <h3 class="text-xl font-bold mb-4 text-center border-b pb-2">검 수 사 진</h3>
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot0" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+1" class="w-full h-full object-contain" alt="사진1"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot0" class="w-full h-full object-contain hidden" alt="사진1"></div>
                         <div id="photoCaption0" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot1" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+2" class="w-full h-full object-contain" alt="사진2"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot1" class="w-full h-full object-contain hidden" alt="사진2"></div>
                         <div id="photoCaption1" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot2" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+3" class="w-full h-full object-contain" alt="사진3"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot2" class="w-full h-full object-contain hidden" alt="사진3"></div>
                         <div id="photoCaption2" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot3" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+4" class="w-full h-full object-contain" alt="사진4"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot3" class="w-full h-full object-contain hidden" alt="사진4"></div>
                         <div id="photoCaption3" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
                 </div>
@@ -234,20 +234,20 @@
             <div id="page3" class="photo-page w-full max-w-[210mm] mx-auto bg-white p-8 text-slate-900 shadow-sm relative page-break">
                 <h3 class="text-xl font-bold mb-4 text-center border-b pb-2">검 수 사 진</h3>
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot4" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+5" class="w-full h-full object-contain" alt="사진5"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot4" class="w-full h-full object-contain hidden" alt="사진5"></div>
                         <div id="photoCaption4" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot5" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+6" class="w-full h-full object-contain" alt="사진6"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot5" class="w-full h-full object-contain hidden" alt="사진6"></div>
                         <div id="photoCaption5" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot6" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+7" class="w-full h-full object-contain" alt="사진7"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot6" class="w-full h-full object-contain hidden" alt="사진7"></div>
                         <div id="photoCaption6" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot7" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+8" class="w-full h-full object-contain" alt="사진8"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot7" class="w-full h-full object-contain hidden" alt="사진8"></div>
                         <div id="photoCaption7" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
                 </div>
@@ -257,20 +257,20 @@
             <div id="page4" class="photo-page w-full max-w-[210mm] mx-auto bg-white p-8 text-slate-900 shadow-sm relative page-break">
                 <h3 class="text-xl font-bold mb-4 text-center border-b pb-2">검 수 사 진</h3>
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot8" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+9" class="w-full h-full object-contain" alt="사진9"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot8" class="w-full h-full object-contain hidden" alt="사진9"></div>
                         <div id="photoCaption8" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot9" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+10" class="w-full h-full object-contain" alt="사진10"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot9" class="w-full h-full object-contain hidden" alt="사진10"></div>
                         <div id="photoCaption9" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot10" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+11" class="w-full h-full object-contain" alt="사진11"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot10" class="w-full h-full object-contain hidden" alt="사진11"></div>
                         <div id="photoCaption10" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot11" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+12" class="w-full h-full object-contain" alt="사진12"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot11" class="w-full h-full object-contain hidden" alt="사진12"></div>
                         <div id="photoCaption11" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
                 </div>
@@ -280,20 +280,20 @@
             <div id="page5" class="photo-page w-full max-w-[210mm] mx-auto bg-white p-8 text-slate-900 shadow-sm relative">
                 <h3 class="text-xl font-bold mb-4 text-center border-b pb-2">검 수 사 진</h3>
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot12" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+13" class="w-full h-full object-contain" alt="사진13"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot12" class="w-full h-full object-contain hidden" alt="사진13"></div>
                         <div id="photoCaption12" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot13" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+14" class="w-full h-full object-contain" alt="사진14"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot13" class="w-full h-full object-contain hidden" alt="사진14"></div>
                         <div id="photoCaption13" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot14" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+15" class="w-full h-full object-contain" alt="사진15"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot14" class="w-full h-full object-contain hidden" alt="사진15"></div>
                         <div id="photoCaption14" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
-                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-slate-50 rounded overflow-hidden">
-                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot15" src="https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+16" class="w-full h-full object-contain" alt="사진16"></div>
+                    <div class="border border-slate-300 flex flex-col items-center justify-between h-[250px] bg-white rounded overflow-hidden">
+                        <div class="w-full h-[210px] flex items-center justify-center p-2 bg-white overflow-hidden"><img id="photoSlot15" class="w-full h-full object-contain hidden" alt="사진16"></div>
                         <div id="photoCaption15" class="w-full h-[40px] flex items-center justify-center py-1 bg-slate-100 border-t border-slate-300 text-center text-xs font-semibold truncate px-2">-</div>
                     </div>
                 </div>
@@ -316,6 +316,7 @@
             const defaultText = items.map(i => `${i.name}\t${i.qty}\t${i.unitPrice}`).join('\n');
             document.getElementById('excelPasteArea').value = defaultText;
             updatePreview();
+            renderPhotoSheets();
         };
 
         function updatePreview() {
@@ -508,6 +509,8 @@
                 const slotCaption = document.getElementById(`photoCaption${i}`);
 
                 if (uploadedImages[i]) {
+                    slotImg.classList.remove('hidden');
+                    slotImg.style.display = 'block';
                     slotImg.src = uploadedImages[i].url;
                     if (items[i] && items[i].name) {
                         slotCaption.innerText = items[i].name;
@@ -515,7 +518,9 @@
                         slotCaption.innerText = uploadedImages[i].name;
                     }
                 } else {
-                    slotImg.src = `https://placehold.co/400x300/f1f5f9/64748b?text=검수+사진+${i+1}`;
+                    slotImg.removeAttribute('src');
+                    slotImg.classList.add('hidden');
+                    slotImg.style.display = 'none';
                     slotCaption.innerText = '-';
                 }
             }
