@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자동 검수완료확인서 및 사진대지생성기</title>
+    <title>검수완료확인서</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -84,7 +84,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-slate-600 mb-1">거래처명</label>
-                        <input type="text" id="docVendor" value="주식회사 두열바이오텍" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <input type="text" id="docVendor" value="주식회사" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-slate-600 mb-1">결제방법</label>
@@ -92,7 +92,7 @@
                     </div>
                     <div class="col-span-2">
                         <label class="block text-xs font-medium text-slate-600 mb-1">계좌번호</label>
-                        <input type="text" id="docAccount" value="우리은행 1005-981-008598" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <input type="text" id="docAccount" value="은행" oninput="updatePreview()" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                     </div>
                 </div>
             </div>
@@ -173,7 +173,7 @@
                 <table class="w-full text-xs mb-6 border-collapse text-center">
                     <tr>
                         <td class="bg-slate-100 font-semibold py-2 w-24">거래처명</td>
-                        <td id="previewVendor" class="py-2 text-left px-3">주식회사 두열바이오텍</td>
+                        <td id="previewVendor" class="py-2 text-left px-3">주식회사</td>
                         <td class="bg-slate-100 font-semibold py-2 w-24">금액 (최종총액)</td>
                         <td id="previewTotalSum" class="py-2 text-right px-3 font-bold text-indigo-700">0</td>
                     </tr>
@@ -181,7 +181,7 @@
                         <td class="bg-slate-100 font-semibold py-2">결제방법</td>
                         <td id="previewMethod" class="py-2 text-left px-3">계좌이체</td>
                         <td class="bg-slate-100 font-semibold py-2">계좌번호</td>
-                        <td id="previewAccount" class="py-2 text-left px-3">우리은행 1005-981-008598</td>
+                        <td id="previewAccount" class="py-2 text-left px-3">은행</td>
                     </tr>
                 </table>
 
